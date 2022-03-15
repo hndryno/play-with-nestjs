@@ -1,15 +1,20 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { ProductService } from './product.service';
 
 @Controller('products')
 export class ProductController {
 
-    constructor(private productService: ProductService){
+    constructor(
+        private productService: ProductService,
+        @Inject('PRODUCT_SERVICE') private readonly client: ClientProxy
+    ){
     }
 
     @Get()
     async all(){
-        // return "all product";
+        // return "all product";\
+        // this.client.emit('hello', 'hello from rabbitMq')
         return this.productService.all();
     }
 
@@ -18,9 +23,13 @@ export class ProductController {
         @Body('title') title: string,
         @Body('image') image: string
     ) {
-        return this.productService.create({
+        let product = await this.productService.create({
             title, image
         });
+
+        this.client.emit('product_created', product);
+
+        return product;
     }
 
     @Get(':id')
@@ -36,15 +45,28 @@ export class ProductController {
         @Body('title') title: string,
         @Body('image') image: string,
     ){
-        return this.productService.update(id, {
+
+        await this.productService.update(id, {
             title, image
         })
+
+        let product = await this.productService.show(id);
+
+        console.log(product)
+
+        this.client.emit('product_updated', product);
+
+        return product;
     }
 
     @Delete(':id')
     async delete(
         @Param('id') id: number
     ){
-        return this.productService.delete(id);
+        let product = await this.productService.delete(id);
+
+        this.client.emit('deleted_product', product);
+
+        return product;
     }
 }

@@ -14,29 +14,39 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductController = void 0;
 const common_1 = require("@nestjs/common");
+const microservices_1 = require("@nestjs/microservices");
 const product_service_1 = require("./product.service");
 let ProductController = class ProductController {
-    constructor(productService) {
+    constructor(productService, client) {
         this.productService = productService;
+        this.client = client;
     }
     async all() {
         return this.productService.all();
     }
     async create(title, image) {
-        return this.productService.create({
+        let product = await this.productService.create({
             title, image
         });
+        this.client.emit('product_created', product);
+        return product;
     }
     async show(id) {
         return this.productService.show(id);
     }
     async update(id, title, image) {
-        return this.productService.update(id, {
+        await this.productService.update(id, {
             title, image
         });
+        let product = await this.productService.show(id);
+        console.log(product);
+        this.client.emit('product_updated', product);
+        return product;
     }
     async delete(id) {
-        return this.productService.delete(id);
+        let product = await this.productService.delete(id);
+        this.client.emit('deleted_product', product);
+        return product;
     }
 };
 __decorate([
@@ -78,7 +88,9 @@ __decorate([
 ], ProductController.prototype, "delete", null);
 ProductController = __decorate([
     (0, common_1.Controller)('products'),
-    __metadata("design:paramtypes", [product_service_1.ProductService])
+    __param(1, (0, common_1.Inject)('PRODUCT_SERVICE')),
+    __metadata("design:paramtypes", [product_service_1.ProductService,
+        microservices_1.ClientProxy])
 ], ProductController);
 exports.ProductController = ProductController;
 //# sourceMappingURL=product.controller.js.map

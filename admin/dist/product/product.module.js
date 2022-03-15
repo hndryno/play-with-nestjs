@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductModule = void 0;
 const common_1 = require("@nestjs/common");
+const microservices_1 = require("@nestjs/microservices");
 const typeorm_1 = require("@nestjs/typeorm");
 const product_controller_1 = require("./product.controller");
 const product_entity_1 = require("./product.entity");
@@ -17,7 +18,20 @@ let ProductModule = class ProductModule {
 ProductModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([product_entity_1.Product])
+            typeorm_1.TypeOrmModule.forFeature([product_entity_1.Product]),
+            microservices_1.ClientsModule.register([
+                {
+                    name: 'PRODUCT_SERVICE',
+                    transport: microservices_1.Transport.RMQ,
+                    options: {
+                        urls: ['amqps://dranmioo:ujDom8254SaRzMqhw_WZiZtVZyv5Cnki@puffin.rmq2.cloudamqp.com/dranmioo'],
+                        queue: 'main_queue',
+                        queueOptions: {
+                            durable: false
+                        },
+                    },
+                },
+            ]),
         ],
         controllers: [product_controller_1.ProductController],
         providers: [product_service_1.ProductService]

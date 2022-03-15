@@ -24,6 +24,19 @@ let ProductService = class ProductService {
     async all() {
         return this.productModel.find().exec();
     }
+    async create(product) {
+        return await this.productModel.create(product);
+    }
+    async show(id) {
+        return await this.productModel.findById(id);
+    }
+    async update(id, product) {
+        let filter = { id: id };
+        console.log('masuk');
+        console.log(product);
+        common_1.Logger.log(JSON.stringify(product));
+        return this.productModel.findOneAndUpdate(filter, product);
+    }
 };
 ProductService = __decorate([
     (0, common_1.Injectable)(),

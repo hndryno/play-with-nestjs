@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductController = void 0;
 const common_1 = require("@nestjs/common");
+const microservices_1 = require("@nestjs/microservices");
 const product_service_1 = require("./product.service");
 let ProductController = class ProductController {
     constructor(productService) {
@@ -19,6 +20,24 @@ let ProductController = class ProductController {
     async all() {
         return this.productService.all();
     }
+    async create(product) {
+        await this.productService.create({
+            id: product.id,
+            title: product.title,
+            image: product.image,
+            likes: product.likes
+        });
+    }
+    async update(product) {
+        console.log('masuk hehe');
+        console.log(product);
+        await this.productService.update(product.id, {
+            id: product.id,
+            title: product.title,
+            image: product.image,
+            likes: product.likes
+        });
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -26,6 +45,18 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "all", null);
+__decorate([
+    (0, microservices_1.EventPattern)('product_created'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "create", null);
+__decorate([
+    (0, microservices_1.EventPattern)('product_updated'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "update", null);
 ProductController = __decorate([
     (0, common_1.Controller)('products'),
     __metadata("design:paramtypes", [product_service_1.ProductService])
