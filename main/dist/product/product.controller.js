@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductController = void 0;
 const common_1 = require("@nestjs/common");
@@ -20,6 +23,10 @@ let ProductController = class ProductController {
     async all() {
         return this.productService.all();
     }
+    async like(id) {
+        const product = await this.productService.show(id);
+        return this.productService.update(id, { likes: product.likes + 1 });
+    }
     async create(product) {
         await this.productService.create({
             id: product.id,
@@ -29,14 +36,15 @@ let ProductController = class ProductController {
         });
     }
     async update(product) {
-        console.log('masuk hehe');
-        console.log(product);
         await this.productService.update(product.id, {
             id: product.id,
             title: product.title,
             image: product.image,
             likes: product.likes
         });
+    }
+    async delete(id) {
+        await this.productService.delete(id);
     }
 };
 __decorate([
@@ -45,6 +53,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "all", null);
+__decorate([
+    (0, common_1.Post)(':id/like'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "like", null);
 __decorate([
     (0, microservices_1.EventPattern)('product_created'),
     __metadata("design:type", Function),
@@ -57,6 +72,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "update", null);
+__decorate([
+    (0, microservices_1.EventPattern)('product_deleted'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "delete", null);
 ProductController = __decorate([
     (0, common_1.Controller)('products'),
     __metadata("design:paramtypes", [product_service_1.ProductService])

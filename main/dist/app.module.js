@@ -23,6 +23,7 @@ AppModule = __decorate([
                 autoCreate: true
             }),
             product_module_1.ProductModule,
+            common_1.HttpModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

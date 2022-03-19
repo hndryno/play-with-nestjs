@@ -39,14 +39,12 @@ let ProductController = class ProductController {
             title, image
         });
         let product = await this.productService.show(id);
-        console.log(product);
         this.client.emit('product_updated', product);
         return product;
     }
     async delete(id) {
-        let product = await this.productService.delete(id);
-        this.client.emit('deleted_product', product);
-        return product;
+        await this.productService.delete(id);
+        this.client.emit('product_deleted', id);
     }
 };
 __decorate([

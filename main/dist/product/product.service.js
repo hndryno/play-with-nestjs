@@ -32,10 +32,11 @@ let ProductService = class ProductService {
     }
     async update(id, product) {
         let filter = { id: id };
-        console.log('masuk');
-        console.log(product);
-        common_1.Logger.log(JSON.stringify(product));
         return this.productModel.findOneAndUpdate(filter, product);
+    }
+    async delete(id) {
+        let filter = { id: id };
+        return this.productModel.findOneAndRemove(filter);
     }
 };
 ProductService = __decorate([

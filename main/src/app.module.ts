@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { HttpModule, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
@@ -11,7 +11,8 @@ import { ProductModule } from './product/product.module';
     MongooseModule.forRoot(`${process.env.MONGODB}`, {
       autoCreate: true
     }), 
-    ProductModule, 
+    ProductModule,
+    HttpModule 
   ],
   controllers: [AppController],
   providers: [AppService],

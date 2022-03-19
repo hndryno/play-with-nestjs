@@ -13,11 +13,9 @@ export class ProductController {
 
     @Get()
     async all(){
-        // return "all product";\
-        // this.client.emit('hello', 'hello from rabbitMq')
         return this.productService.all();
     }
-
+    
     @Post()
     async create(
         @Body('title') title: string,
@@ -52,7 +50,7 @@ export class ProductController {
 
         let product = await this.productService.show(id);
 
-        console.log(product)
+        // console.log(product)
 
         this.client.emit('product_updated', product);
 
@@ -63,10 +61,8 @@ export class ProductController {
     async delete(
         @Param('id') id: number
     ){
-        let product = await this.productService.delete(id);
+        await this.productService.delete(id);
 
-        this.client.emit('deleted_product', product);
-
-        return product;
+        this.client.emit('product_deleted', id);
     }
 }

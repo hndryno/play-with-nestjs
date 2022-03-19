@@ -10,6 +10,6 @@ export declare class Product {
     id: number;
     title: string;
     image: String;
-    likes: string;
+    likes: number;
 }
 export declare const ProductSchema: import("mongoose").Schema<import("mongoose").Document<Product, any, any>, import("mongoose").Model<import("mongoose").Document<Product, any, any>, any, any, any>, any, any>;

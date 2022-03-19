@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product, productDocument } from './product.model';
 import {Model} from 'mongoose';
@@ -25,12 +25,12 @@ export class ProductService {
 
     async update(id: number, product) : Promise<Product>{
         let filter = {id: id}
-        console.log('masuk');
-        console.log(product)
-        // Logger.log('product', product);
-        Logger.log(JSON.stringify(product));
-        // console.log(product);
         return this.productModel.findOneAndUpdate(filter, product);
+    }
+
+    async delete(id:number) :Promise<Product>{
+        let filter = {id: id}
+        return this.productModel.findOneAndRemove(filter);
     }
 
     
