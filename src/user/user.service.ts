@@ -21,6 +21,7 @@ export class UserService {
   }
 
   findOne(id: any) {
+    // return this.userRepo.findOne(id);
     return this.userRepo.findOne(id);
     // return this.userRepo.findOne(id);
   }
