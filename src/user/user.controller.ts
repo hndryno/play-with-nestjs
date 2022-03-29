@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Helper } from '../helper/helper';
 
 @Controller('user')
 export class UserController {
@@ -25,10 +24,7 @@ export class UserController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    let helper = new Helper();
-    if(updateUserDto.password){
-      updateUserDto.password = helper.hash(updateUserDto.password);
-    }
+
     return this.userService.update(+id, updateUserDto);
   }
 

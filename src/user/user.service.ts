@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { Helper } from '../helper/helper';
 
 @Injectable()
 export class UserService {
@@ -26,6 +27,10 @@ export class UserService {
 
   update(id: number, updateUserDto: UpdateUserDto) {
     updateUserDto.id = id 
+    let helper = new Helper();
+    if(updateUserDto.password){
+      updateUserDto.password = helper.hash(updateUserDto.password);
+    }
     return this.userRepo.save(updateUserDto)
   }
 
