@@ -13,6 +13,10 @@ export class UserService {
   ){}
 
   create(createUserDto: CreateUserDto) {
+    let helper = new Helper();
+    if(createUserDto.password){
+      createUserDto.password = helper.hash(createUserDto.password)
+    }
     return this.userRepo.save(createUserDto);
   }
 
