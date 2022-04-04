@@ -7,6 +7,7 @@ import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
 import { ExistValidator } from './etc/validator/exist-validator';
 import { UniqueValidator } from './etc/validator/unique-validator';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { UniqueValidator } from './etc/validator/unique-validator';
       autoLoadEntities: true,
       synchronize : true
     }),
-    UserModule
+    UserModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService, ExistValidator, UniqueValidator],

@@ -28,6 +28,10 @@ export class UserService {
     return this.userRepo.findOne(id);
   }
 
+  findUsername(username: any) {
+    return this.userRepo.findOne(username);
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     updateUserDto.id = id 
     let helper = new Helper();

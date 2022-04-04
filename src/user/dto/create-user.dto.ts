@@ -31,7 +31,7 @@ export class CreateUserDto {
     @ApiProperty({required: true}) //untuk swagger
     @IsString()
     @MinLength(6)
-    @MaxLength(50)
+    @MaxLength(200)
     password : string
 }
 
