@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Request } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthDto } from './auth.dto';
 import { AuthService } from './auth.service';
+import { JwtGuard } from './jwt.guard';
 
 @ApiTags('Auth') //untuk swagger
 @Controller('auth')
@@ -10,8 +11,9 @@ export class AuthController {
 
   }
 
-  @ApiBearerAuth()
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   checkUser(@Request() req ){
       return req.user;
   }

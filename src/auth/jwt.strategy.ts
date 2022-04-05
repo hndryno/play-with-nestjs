@@ -11,15 +11,16 @@ export class JwtStategy extends PassportStrategy(Strategy, 'jwt'){
         super({
             jwtFromRequest : ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration : false,
-            secretOrKey : `${process.env.JWT_KEY}`
+            secretOrKey :  `${process.env.JWT_SECRET}`
         })
     }
 
     async validate(payload: any){
         let user = await this.userService.findOne(payload.id)
-        console.log(user)
+        // console.log(user)
         if(user){
-            return user;
+            // return user;
+            return { id: user.id, nama: user.nama_user }
         }else{
             throw new UnauthorizedException;
         }
