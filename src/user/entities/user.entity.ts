@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
+import { Product } from "src/product/entities/product.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -23,4 +24,9 @@ export class User {
     @UpdateDateColumn()
     update_at : Date 
 
+    @OneToMany(() => Product, prdct => prdct.id) //relasi one to many ke product
+    product: Product
+
 }
+
+//setelah buat ini langsung deklarasikan ke app.module, biar bisa ditarik
