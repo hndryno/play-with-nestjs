@@ -8,6 +8,6 @@ export const InjectUser = createParamDecorator((data: any, ctx :  ExecutionConte
     // console.log('masuk inject user')
     const req = ctx.switchToHttp().getRequest();
     req.body.user = {id: req.user.id}
-    // console.log(req.body)
+    // console.log(req.body.user)
     return req.body;
 })

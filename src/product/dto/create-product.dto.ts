@@ -1,13 +1,12 @@
 import { PickType } from "@nestjs/mapped-types"
 import { ApiProperty, OmitType } from "@nestjs/swagger"
 import { IsNumber, IsObject, IsOptional, IsString } from "class-validator"
-import { CreateUserDto } from "src/user/dto/create-user.dto"
+// import { CreateUserDto } from "src/user/dto/create-user.dto"
 import { UserDto } from "src/user/dto/user.dto"
 
 export class ProductDto{
    
     @ApiProperty()
-    @IsNumber()
     id: number
 
     @ApiProperty()
@@ -36,8 +35,9 @@ export class ProductDto{
 
     //untuk set relasi product dengan user
     @IsObject()//karena kita tidak menginputkan user, ini akan secara otomatis terinput by user yang login
-    User : UserDto
+    user : UserDto
 }
 
+// export class CreateProductDto extends OmitType(ProductDto, ['id']) {}
 export class CreateProductDto extends OmitType(ProductDto, ['id']) {}
 export class ProductIdDto extends PickType(ProductDto, ['id']) {}
