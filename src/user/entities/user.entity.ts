@@ -15,7 +15,7 @@ export class User {
     @Column()
     username : string
 
-    @Column()
+    @Column({select: false}) //membuang password dari return json
     password : string
 
     @CreateDateColumn()

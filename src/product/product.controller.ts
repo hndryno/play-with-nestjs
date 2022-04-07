@@ -26,12 +26,10 @@ export class ProductController {
       }
     })
   })) //ini bawaan nestjs sudah terkoneksi langsung dengan multer
-
   @ApiConsumes('multipart/form-data')
   @ApiBody({type:CreateProductDto})
   //@Body diganti jadi @InjectUser / dekorator yang telah kita buat di folder decorator
   create(@InjectUser() createProductDto: CreateProductDto, @UploadedFile() foto : Express.Multer.File) {
-    console.log(createProductDto)
     createProductDto.foto = foto.filename
     return this.productService.create(createProductDto);
   }
@@ -47,7 +45,22 @@ export class ProductController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+  @UseInterceptors(FileInterceptor('foto', {
+    storage: diskStorage({
+      destination : './asset/product',
+      filename : (req: any, file, cb) => {
+        const namaFile = [req.user.id, Date.now()].join('-');
+        cb(null, namaFile+extname(file.originalname));
+      }
+    })
+  }))
+  @ApiBody({type:UpdateProductDto})
+  @ApiConsumes('multipart/form-data')
+  update(@Param('id') id: string, @InjectUser() updateProductDto: UpdateProductDto, @UploadedFile() foto : Express.Multer.File) {
+    if(foto){
+      updateProductDto.foto = foto.filename
+    }
+
     return this.productService.update(+id, updateProductDto);
   }
 
