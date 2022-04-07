@@ -7,6 +7,7 @@ import { JwtGuard } from 'src/auth/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { InjectUser } from 'src/etc/decorator/inject-user.decorator';
+import { extname } from 'path';
 
 @ApiTags('product')
 @ApiBearerAuth()
@@ -18,7 +19,11 @@ export class ProductController {
   @Post()
   @UseInterceptors(FileInterceptor('foto', {
     storage: diskStorage({
-      destination : './asset/product'
+      destination : './asset/product',
+      filename : (req: any, file, cb) => {
+        const namaFile = [req.user.id, Date.now()].join('-');
+        cb(null, namaFile+extname(file.originalname));
+      }
     })
   })) //ini bawaan nestjs sudah terkoneksi langsung dengan multer
 
