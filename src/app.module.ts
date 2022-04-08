@@ -10,6 +10,8 @@ import { UniqueValidator } from './etc/validator/unique-validator';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { Product } from './product/entities/product.entity';
+import { KonsumenModule } from './konsumen/konsumen.module';
+import { RekeningModule } from './rekening/rekening.module';
 
 @Module({
   imports: [
@@ -30,7 +32,9 @@ import { Product } from './product/entities/product.entity';
     }),
     UserModule,
     AuthModule,
-    ProductModule
+    ProductModule,
+    KonsumenModule,
+    RekeningModule
   ],
   controllers: [AppController],
   providers: [AppService, ExistValidator, UniqueValidator],
