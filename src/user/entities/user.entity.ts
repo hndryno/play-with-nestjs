@@ -1,3 +1,4 @@
+import { Konsumen } from "src/konsumen/entities/konsumen.entity";
 import { Product } from "src/product/entities/product.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
@@ -26,6 +27,9 @@ export class User {
 
     @OneToMany(() => Product, prdct => prdct.id) //relasi one to many ke product
     product: Product
+
+    @OneToMany(() => Konsumen, kons => kons.id) //relasi one to many ke product
+    konsumen: Konsumen
 
 }
 

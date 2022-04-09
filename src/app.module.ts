@@ -12,6 +12,7 @@ import { ProductModule } from './product/product.module';
 import { Product } from './product/entities/product.entity';
 import { KonsumenModule } from './konsumen/konsumen.module';
 import { RekeningModule } from './rekening/rekening.module';
+import { Konsumen } from './konsumen/entities/konsumen.entity';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { RekeningModule } from './rekening/rekening.module';
       database: process.env.MYSQL_DB,
       entities: [
         User,
-        Product //entities product
+        Product, //entities product
+        Konsumen
       ],
       autoLoadEntities: true,
       synchronize : true
