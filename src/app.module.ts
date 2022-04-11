@@ -13,6 +13,7 @@ import { Product } from './product/entities/product.entity';
 import { KonsumenModule } from './konsumen/konsumen.module';
 import { RekeningModule } from './rekening/rekening.module';
 import { Konsumen } from './konsumen/entities/konsumen.entity';
+import { Rekening } from './rekening/entities/rekening.entity';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { Konsumen } from './konsumen/entities/konsumen.entity';
       entities: [
         User,
         Product, //entities product
-        Konsumen
+        Konsumen,
+        Rekening
       ],
       autoLoadEntities: true,
       synchronize : true
