@@ -28,8 +28,12 @@ export class UserService {
     return this.userRepo.findOne(id);
   }
 
-  findUsername(username: any) {
-    return this.userRepo.findOne(username);
+  findUsername(username) {
+    return this.userRepo.findOne({
+      where: { username },
+      select: ['id', 'password'] //select field yang di return
+    });
+    // return this.userRepo.find({username: username, select: ["id", "password"]});
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

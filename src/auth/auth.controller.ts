@@ -20,6 +20,7 @@ export class AuthController {
 
   @Post()
   async login(@Body() authDto : AuthDto){
+    console.log(authDto)
     let user = await this.authService.chekUser(authDto.username, authDto.password)
     return this.authService.generateJwtToken({id: user.id})
   }

@@ -13,19 +13,22 @@ export class KonsumenService {
 
   }
   create(createKonsumanDto: CreateKonsumanDto) {
-    return this.konsumenRepo.create(createKonsumanDto);
+    return this.konsumenRepo.save(createKonsumanDto);
   }
 
   findAll() {
-    return this.konsumenRepo.find()
+    return this.konsumenRepo.find({relations: ['user']})
   }
 
   findOne(id) {
-    return this.konsumenRepo.findOne(id);
+    return this.konsumenRepo.findOne({
+      where: { id },
+      relations: ['user'] //memanggil relasi didalam findone
+    });
   }
 
   update(id: number, updateKonsumanDto: UpdateKonsumanDto) {
-    // id = updateKonsumanDto.id
+    id = updateKonsumanDto.id
     return this.konsumenRepo.save(updateKonsumanDto);
     // return this.update(id, UpdateKonsumanDto);
   }
@@ -33,6 +36,7 @@ export class KonsumenService {
   async remove(id) {
     // id = updateKonsumanDto.id
     let konsumen = await this.konsumenRepo.findOne(id);
-    return this.remove(konsumen);
+    console.log(konsumen)
+    return this.konsumenRepo.remove(konsumen);
   }
 }
