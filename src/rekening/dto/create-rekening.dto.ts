@@ -1,8 +1,7 @@
-import { OmitType, PickType } from "@nestjs/mapped-types"
-import { ApiProperty } from "@nestjs/swagger"
+import { PickType } from "@nestjs/mapped-types"
+import { ApiProperty, OmitType } from "@nestjs/swagger"
 import { IsNumber, IsObject, IsString } from "class-validator"
-import { User } from "src/user/entities/user.entity"
-
+import { UserDto } from "src/user/dto/user.dto"
 export class RekeningDto {
 
     @ApiProperty()
@@ -21,9 +20,9 @@ export class RekeningDto {
     type_rekening: number
 
     @IsObject()
-    user: User
+    user: UserDto
 
 }
 
 export class CreateRekeningDto extends OmitType (RekeningDto, ['id']){}
-export class RekeningId extends PickType (RekeningDto, ['id']){}
+export class RekeningIdDto extends PickType (RekeningDto, ['id']){}
